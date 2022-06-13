@@ -1,49 +1,37 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, FlatList, ImageBackground, Dimensions } from 'react-native';
+import Header from './components/Header';
+import TodoInput from './components/TodoInput';
+import TodoList from './components/TodoList';
 
 
 export default function App() {
 
-  const [textInputValue, setTextInputValue] = useState('');
   const [todos, setTodos] = useState([])
 
   useEffect(() => {
     console.log(todos)
   }, [todos]);
 
-  const handleTextChange = (text) => {
-    setTextInputValue(text);
-  }
-
-  const handleAdd = () => {
-    setTodos(prev => prev.concat(textInputValue))
-  }
-
-  const renderItem = ({item: todo}) => {
-    return (
-      <Text>{todo}</Text>
-    )
-  }
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Todo App</Text>
-      <TextInput
-        style={styles.textinput}
-        onChangeText={handleTextChange}
-      />
-      <Button 
-        title='Add' 
-        onPress={handleAdd} 
-      />
-      <FlatList 
-        data={todos}
-        renderItem={renderItem}
-        keyExtractor={(todo, index) => index}
-      />
-      <StatusBar style="auto" />
+      <ImageBackground
+        source={require('./assets/splash.png')}
+        resizeMode='cover'
+        style={styles.imagebackground}
+      >
+        <Header />
+        <TodoInput 
+          setTodos={setTodos}
+        />
+        <TodoList 
+          todos={todos}
+        />
+        <StatusBar style="auto" />
+      </ImageBackground>
     </View>
+      
   );
 }
 
@@ -53,16 +41,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#DCDCDC',
     alignItems: 'center',
   },
-  title: {
-    fontSize: 40,
-    marginTop: 40,
-  },
-  textinput: {
-    backgroundColor: '#fff',
-    width: '70%',
-    margin: 20,
-    padding: 10,
-    borderRadius: 6,
+  imagebackground: {
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width
   },
 
 });
