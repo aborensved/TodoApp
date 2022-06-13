@@ -1,20 +1,38 @@
-import {Text, FlatList} from 'react-native';
+import { useNavigation } from "@react-navigation/native";
+import { Text, FlatList, Pressable, StyleSheet } from "react-native";
 
-const TodoList = ({todos}) => {
+const TodoList = ({ todos, navigation }) => {
 
-    const renderItem = ({item: todo}) => {
-        return (
-          <Text>{todo}</Text>
-        )
-      }
+  const handlePress = (todo) => {
+    navigation.navigate('SelectedTodoScreen', {todo: todo})
+  }
 
-    return(
-        <FlatList 
-        data={todos}
-        renderItem={renderItem}
-        keyExtractor={(todo, index) => index}
-      />
+  const renderItem = ({ item: todo }) => {
+    return (
+      <Pressable onPress={() => handlePress(todo)}
+        style={styles.todo}  
+      >
+        <Text>{todo}</Text>
+      </Pressable>
     )
-}
+  };
+
+  return (
+    <FlatList
+      data={todos}
+      renderItem={renderItem}
+      keyExtractor={(todo, index) => index}
+    />
+  );
+};
+
+const styles = StyleSheet.create({
+  todo: {
+    margin: 10,
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 6,
+  },
+})
 
 export default TodoList;
