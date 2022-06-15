@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import TodoInput from "../components/TodoInput";
 import TodoList from "../components/TodoList";
 import{ useState, useEffect } from 'react';
+import { findAll } from "../database/DbUtils";
 
 const MainTodosScreen = ({ navigation }) => {
 
@@ -11,13 +12,16 @@ const MainTodosScreen = ({ navigation }) => {
   const emitter = new NativeEventEmitter()
 
   const deleteListener = emitter.addListener('delete', (todoName) => {
-    setTodos(prev => prev.filter(todo => todo !== todoName))
+    findAll()
+      .then(res => setTodos(res))
+      .catch(err => console.log(err))
   })
 
   useEffect(() => {
-    console.log(todos);
+    findAll()
+    .then(res => setTodos(res))
     return() => deleteListener.remove()
-  }, [todos]);
+  }, []);
 
   return (
     <View style={styles.container}>

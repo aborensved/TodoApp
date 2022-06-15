@@ -7,6 +7,8 @@ import {
   Pressable,
 } from "react-native";
 import { useEffect, useState } from "react";
+import Todo from "../models/Todo";
+import { findAll, insert } from "../database/DbUtils";
 
 const TodoInput = ({ setTodos }) => {
   const [textInputValue, setTextInputValue] = useState("");
@@ -16,7 +18,15 @@ const TodoInput = ({ setTodos }) => {
   };
 
   const handleAdd = () => {
-    setTodos((prev) => prev.concat(textInputValue));
+    const todo = new Todo(0, textInputValue, false)
+        insert(todo)
+            .then(res => {
+                console.log("insert res", res)
+                return findAll()
+            })
+            .then(res => setTodos(res))
+            .catch(err => console.log(err))
+
   };
 
   return (

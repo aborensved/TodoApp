@@ -2,19 +2,16 @@ import { useNavigation } from "@react-navigation/native";
 import { Text, FlatList, Pressable, StyleSheet } from "react-native";
 
 const TodoList = ({ todos, navigation }) => {
-
   const handlePress = (todo) => {
-    navigation.navigate('SelectedTodoScreen', {todo: todo})
-  }
+    navigation.navigate("SelectedTodoScreen", { todo: todo });
+  };
 
   const renderItem = ({ item: todo }) => {
     return (
-      <Pressable onPress={() => handlePress(todo)}
-        style={styles.todo}  
-      >
-        <Text>{todo}</Text>
+      <Pressable onPress={() => handlePress(todo)} style={styles.todo}>
+        <Text>{todo.title}</Text>
       </Pressable>
-    )
+    );
   };
 
   return (
@@ -29,10 +26,10 @@ const TodoList = ({ todos, navigation }) => {
 const styles = StyleSheet.create({
   todo: {
     margin: 10,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 10,
     borderRadius: 6,
   },
-})
+});
 
 export default TodoList;

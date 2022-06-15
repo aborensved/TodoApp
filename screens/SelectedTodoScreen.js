@@ -1,4 +1,5 @@
 import { NativeEventEmitter, Pressable, StyleSheet, Text, View } from "react-native";
+import { deleteById } from "../database/DbUtils";
 
 
 const SelectedTodoScreen = ({route, navigation}) => {
@@ -7,15 +8,19 @@ const SelectedTodoScreen = ({route, navigation}) => {
 
   const emitter = new NativeEventEmitter()
 
-  const handlePress = () => {
-    emitter.emit('delete', todo)
+  const handlePress = (id) => {
+    deleteById(id)
+      .then(res => emitter.emit('delete', todo))
+    
     navigation.goBack()
   }
 
   return (
     <View style={styles.container}>
-      <Text>Todo: {todo}</Text>
-      <Pressable onPress={handlePress}>
+      <Text>Title: {todo.title}</Text>
+      <Text>Id: {todo.id}</Text>
+      <Text>Completed: {todo.isCompleted ? "Yes" : "No"}</Text>
+      <Pressable onPress={() =>handlePress(todo.id)}>
         <Text>Delete</Text>
       </Pressable>
     </View>
