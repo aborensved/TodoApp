@@ -30,13 +30,16 @@ const TodoInput = ({ setTodos }) => {
   };
 
   return (
-    <View style={styles.inputcontainer}>
+    <View accessible={true} accessibilityLabel='Todo input region' style={styles.inputcontainer}>
       <TextInput
         style={styles.textinput}
         onChangeText={handleTextChange}
         value={textInputValue}
       />
       <Pressable
+        // accessibilityLabel="Add todo button"
+        // accessibilityHint="Adds a todo when clicked"
+        // accessibilityRole="button"
         onPress={handleAdd}
         style={({ pressed }) => [
           styles.addbutton,
